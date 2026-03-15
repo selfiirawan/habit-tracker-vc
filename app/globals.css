@@ -1,29 +1,35 @@
 :root {
   color-scheme: light;
-  --bg: #f6f5f2;
+  --bg: #fff6ea;
   --surface: #ffffff;
   --text: #1c1c1c;
-  --muted: #6b6b6b;
-  --primary: #1f6f5b;
+  --muted: #6c6b67;
+  --primary: #0d6b5f;
   --primary-contrast: #ffffff;
-  --accent: #f2c14e;
+  --accent: #f4a340;
+  --accent-strong: #f06a3a;
   --danger: #c83b3b;
-  --border: #e6e2dc;
-  --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --border: #f0dfd1;
+  --shadow: 0 12px 26px rgba(28, 27, 24, 0.08);
+  --glow: 0 0 0 1px rgba(244, 163, 64, 0.2);
+  --gradient: linear-gradient(135deg, rgba(13, 107, 95, 0.15), rgba(244, 163, 64, 0.18));
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #111311;
-  --surface: #1b1f1b;
-  --text: #f0f2ef;
-  --muted: #a4a9a4;
-  --primary: #3db28f;
-  --primary-contrast: #0f1612;
-  --accent: #e3b341;
+  --bg: #0f1110;
+  --surface: #171b1a;
+  --text: #f4f1ec;
+  --muted: #b2aaa1;
+  --primary: #3ad0ad;
+  --primary-contrast: #0e1412;
+  --accent: #ffb457;
+  --accent-strong: #ff7b59;
   --danger: #e66a6a;
-  --border: #2a2f2a;
-  --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  --border: #242a28;
+  --shadow: 0 16px 30px rgba(0, 0, 0, 0.45);
+  --glow: 0 0 0 1px rgba(255, 180, 87, 0.2);
+  --gradient: linear-gradient(135deg, rgba(58, 208, 173, 0.2), rgba(255, 180, 87, 0.2));
 }
 
 * {
@@ -33,9 +39,34 @@
 body {
   margin: 0;
   font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, rgba(31, 111, 91, 0.08), transparent 55%),
+  background: radial-gradient(circle at top, rgba(13, 107, 95, 0.18), transparent 55%),
+    radial-gradient(circle at 20% 20%, rgba(244, 163, 64, 0.2), transparent 45%),
     var(--bg);
   color: var(--text);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  z-index: -1;
+}
+
+body::before {
+  top: -120px;
+  right: 12%;
+  background: rgba(244, 163, 64, 0.5);
+}
+
+body::after {
+  bottom: -160px;
+  left: 10%;
+  background: rgba(13, 107, 95, 0.45);
 }
 
 a {
@@ -59,9 +90,19 @@ main {
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 20px;
+  border-radius: 22px;
+  padding: 22px;
   box-shadow: var(--shadow);
+  position: relative;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--glow);
+  pointer-events: none;
 }
 
 .header {
@@ -73,7 +114,7 @@ main {
 }
 
 .title {
-  font-size: 30px;
+  font-size: 32px;
   margin: 0;
 }
 
@@ -100,16 +141,28 @@ main {
   background: var(--primary);
   color: var(--primary-contrast);
   border: none;
-  padding: 10px 16px;
+  padding: 11px 18px;
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 8px 14px rgba(13, 107, 95, 0.2);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(13, 107, 95, 0.25);
+}
+
+.button:active {
+  transform: translateY(0);
 }
 
 .button.secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border);
   color: var(--text);
+  box-shadow: none;
 }
 
 .button.ghost {
@@ -122,10 +175,18 @@ main {
 select {
   width: 100%;
   padding: 10px 12px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid var(--border);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
   color: var(--text);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(244, 163, 64, 0.2);
 }
 
 label {
@@ -140,7 +201,7 @@ label {
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: rgba(31, 111, 91, 0.12);
+  background: rgba(13, 107, 95, 0.12);
   color: var(--primary);
   border-radius: 999px;
   font-size: 12px;
@@ -153,8 +214,21 @@ label {
 }
 
 .badge.gold {
-  background: rgba(242, 193, 78, 0.2);
-  color: #9a6b00;
+  background: rgba(244, 163, 64, 0.25);
+  color: #a05b00;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--gradient);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(244, 163, 64, 0.3);
 }
 
 .habit-row {
@@ -199,7 +273,7 @@ label {
 
 .progress-bar {
   height: 8px;
-  background: rgba(31, 111, 91, 0.12);
+  background: rgba(13, 107, 95, 0.12);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -207,7 +281,7 @@ label {
 .progress-bar > span {
   display: block;
   height: 100%;
-  background: var(--primary);
+  background: linear-gradient(90deg, var(--primary), var(--accent));
 }
 
 .quote {
@@ -219,6 +293,50 @@ label {
   color: var(--muted);
   font-size: 12px;
   text-align: center;
+}
+
+.badge-shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.badge-slot {
+  border-radius: 16px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.badge-slot.filled {
+  border: 1px solid rgba(244, 163, 64, 0.4);
+  background: var(--gradient);
+}
+
+.badge-lock {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(108, 107, 103, 0.15);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.badge-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.35);
+  color: #734d00;
+  font-size: 14px;
 }
 
 @media (max-width: 640px) {
