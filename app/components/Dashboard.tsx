@@ -1,6 +1,6 @@
 "use client";
 
-import { HabitWithStats } from "../page";
+import type { HabitWithStats } from "../lib/types";
 
 export default function Dashboard({ habits }: { habits: HabitWithStats[] }) {
   const badgeThresholds = [3, 7, 14, 30, 60, 100];

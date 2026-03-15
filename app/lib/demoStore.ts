@@ -1,4 +1,4 @@
-import type { Habit } from "../page";
+import type { Habit } from "./types";
 
 export type DemoCheckin = {
   id: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import { HabitWithStats } from "../page";
+import type { HabitWithStats } from "../lib/types";
 
 export default function HabitList({
   habits,
