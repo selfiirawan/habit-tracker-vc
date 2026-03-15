@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "../lib/supabaseClient";
+import { supabase, supabaseEnabled } from "../lib/supabaseClient";
 
 export default function AuthPanel() {
   const [email, setEmail] = useState("");
@@ -11,6 +11,10 @@ export default function AuthPanel() {
 
   async function handleAuth() {
     setMessage(null);
+    if (!supabaseEnabled || !supabase) {
+      setMessage("Supabase is not configured. Use demo mode or add env vars.");
+      return;
+    }
     if (!email || !password) {
       setMessage("Email and password are required.");
       return;
@@ -45,6 +49,11 @@ export default function AuthPanel() {
           </p>
         </div>
       </div>
+      {!supabaseEnabled ? (
+        <p className="subtitle">
+          Supabase is not configured. Set the env vars to enable sign in.
+        </p>
+      ) : null}
       <div className="grid grid-2" style={{ marginTop: 16 }}>
         <div>
           <label htmlFor="email">Email</label>

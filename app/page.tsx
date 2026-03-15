@@ -72,13 +72,15 @@ export default function HomePage() {
     }
 
     supabase.auth.getSession().then(({ data }) => {
-      setSessionUser(data.session?.user ?? null);
+      const user = data.session?.user;
+      setSessionUser(user ? { id: user.id, email: user.email ?? null } : null);
       setLoading(false);
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, updatedSession) => {
-        setSessionUser(updatedSession?.user ?? null);
+        const user = updatedSession?.user;
+        setSessionUser(user ? { id: user.id, email: user.email ?? null } : null);
       }
     );
 
